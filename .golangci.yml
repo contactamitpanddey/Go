@@ -1,0 +1,14 @@
+run:
+  tests: false
+linters:
+  enable:
+    - goimports
+    - golint
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - typecheck
+    - unused
+    - varcheck

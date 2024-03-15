@@ -1,0 +1,22 @@
+name: Go CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy to Staging
+        env:
+          HOST_PASSWORD: ${{ secrets.HOST_PASSWORD }}
+        run: |
+          # Build and push Docker image
+          docker build -t my-go-app .
+          docker push my-go-app:latest
+          
+          # Deploy to staging server
+          ssh user@staging-host 'docker pull my-go-app:latest && docker stop my-go-app && docker rm my-go-app && docker run -d --name my-go-app -p 8080:8080 my-go-app:latest'
